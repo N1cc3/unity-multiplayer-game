@@ -12,11 +12,15 @@ public class SpectatorControl : MonoBehaviour, IControllable
     private TerrainCollider _terrainCollider;
 
     private GameObject _headquartersHoloPrefab;
+    private GameObject _headquartersPrefab;
+
     private GameObject _hqHolo;
+    private GameObject _hq;
 
     private void Awake()
     {
         _headquartersHoloPrefab = Resources.Load("headquarters_holo") as GameObject;
+        _headquartersPrefab = Resources.Load("headquarters") as GameObject;
     }
 
     private void Start()
@@ -31,6 +35,11 @@ public class SpectatorControl : MonoBehaviour, IControllable
         var t = transform;
         _terrainCollider.Raycast(new Ray(t.position, -t.forward), out var hit, PositiveInfinity);
         _hqHolo.transform.position = hit.point;
+
+        if (!Input.GetButtonDown("Fire1")) return;
+        _hq = Instantiate(_headquartersPrefab, _hqHolo.transform.position, _hqHolo.transform.rotation);
+        Destroy(_hqHolo);
+        _hqHolo = null;
     }
 
     public void Forward(float amount)
