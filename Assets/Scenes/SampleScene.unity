@@ -250,7 +250,7 @@ MonoBehaviour:
   m_ScriptCRCCheck: 1
   m_MaxDelay: 0.01
   m_LogLevel: 2
-  m_PlayerPrefab: {fileID: 4433511323708407297, guid: 8603e318cef744b4386990096678277c,
+  m_PlayerPrefab: {fileID: 589852820133935475, guid: 8ae4be75dfcb320439cf2637fa823ea0,
     type: 3}
   m_AutoCreatePlayer: 1
   m_PlayerSpawnMethod: 0
@@ -448,7 +448,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eacf245a98bb08b4488c66271ed40780, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerTransform: {fileID: 0}
 --- !u!81 &1189412050
 AudioListener:
   m_ObjectHideFlags: 0

@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using static UnityEngine.ForceMode;
 
-public class FlyingControl : NetworkBehaviour
+public class FlyingControl : MonoBehaviour
 {
     public float thrustSpeed = 10.0f;
     public float yawSpeed = 1.0f;
@@ -21,14 +21,8 @@ public class FlyingControl : NetworkBehaviour
         _rb = GetComponent<Rigidbody>();
     }
 
-    public override void OnStartLocalPlayer()
-    {
-        Camera.main.GetComponent<CameraFollow>().SetTarget(gameObject.transform);
-    }
-
     private void Update()
     {
-        if (!isLocalPlayer) return;
         var thrust = thrustSpeed * Input.GetAxis("Vertical");
         var yaw = yawSpeed * Input.GetAxis("Horizontal");
         var pitch = pitchSpeed * Input.GetAxis("Mouse Y");
