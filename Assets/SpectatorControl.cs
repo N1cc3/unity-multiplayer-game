@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
-using static UnityEngine.ForceMode;
+using static System.Single;
 using static UnityEngine.Space;
 using static UnityEngine.Vector3;
 
@@ -11,6 +8,30 @@ public class SpectatorControl : MonoBehaviour, IControllable
 {
     public float moveSpeed = 1.0f;
     public float rotateSpeed = 1.0f;
+
+    private TerrainCollider _terrainCollider;
+
+    private GameObject _headquartersHoloPrefab;
+    private GameObject _hqHolo;
+
+    private void Awake()
+    {
+        _headquartersHoloPrefab = Resources.Load("headquarters_holo") as GameObject;
+    }
+
+    private void Start()
+    {
+        _terrainCollider = Terrain.activeTerrain.GetComponent<TerrainCollider>();
+        _hqHolo = Instantiate(_headquartersHoloPrefab);
+    }
+
+    private void Update()
+    {
+        if (_hqHolo == null) return;
+        var t = transform;
+        _terrainCollider.Raycast(new Ray(t.position, -t.forward), out var hit, PositiveInfinity);
+        _hqHolo.transform.position = hit.point;
+    }
 
     public void Forward(float amount)
     {
