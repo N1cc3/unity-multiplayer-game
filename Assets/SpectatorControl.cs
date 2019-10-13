@@ -41,4 +41,12 @@ public class SpectatorControl : MonoBehaviour, IControllable
     {
         transform.Translate(moveSpeed * down);
     }
+
+    public void SetCamera(Camera followCamera)
+    {
+        var cameraTransform = followCamera.transform;
+        cameraTransform.SetParent(transform, false);
+        cameraTransform.localPosition = forward;
+        cameraTransform.LookAt(transform);
+    }
 }

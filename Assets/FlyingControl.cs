@@ -1,20 +1,20 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 using static UnityEngine.ForceMode;
 
-public class FlyingControl : MonoBehaviour
+public class FlyingControl : MonoBehaviour, IControllable
 {
-    public float thrustSpeed = 10.0f;
+    public float thrustSpeed = 8.0f;
     public float yawSpeed = 1.0f;
     public float pitchSpeed = 1.0f;
     public float rollSpeed = 1.0f;
     public float jumpSpeed = 8.0f;
-    public float defaultJumpThrust = 5f;
+    public float defaultJumpThrust = 6f;
+
+    public Vector3 cameraOffset = Vector3.forward;
 
     private Rigidbody _rb;
+    private bool _isCrouching;
 
     private void Start()
     {
@@ -23,20 +23,45 @@ public class FlyingControl : MonoBehaviour
 
     private void Update()
     {
-        var thrust = thrustSpeed * Input.GetAxis("Vertical");
-        var yaw = yawSpeed * Input.GetAxis("Horizontal");
-        var pitch = pitchSpeed * Input.GetAxis("Mouse Y");
-        var roll = rollSpeed * Input.GetAxis("Mouse X");
-        var isJumping = Input.GetButton("Jump");
-        var isLanding = Input.GetButton("Crouch");
+        if (!_isCrouching) _rb.AddForce(defaultJumpThrust * transform.up, Acceleration);
+        _isCrouching = false;
+    }
 
-        _rb.AddForce(-thrust * transform.forward, Acceleration);
-        _rb.AddTorque(yaw * transform.up, Acceleration);
-        _rb.AddTorque(pitch * transform.right, Acceleration);
-        _rb.AddTorque(roll * transform.forward, Acceleration);
-        if (isJumping) _rb.AddForce(jumpSpeed * transform.up, Acceleration);
+    public void Forward(float amount)
+    {
+        _rb.AddForce(-1 * thrustSpeed * amount * transform.forward, Acceleration);
+    }
 
-        // Default jump thrust
-        if (!isLanding) _rb.AddForce(defaultJumpThrust * transform.up, Acceleration);
+    public void Side(float amount)
+    {
+        _rb.AddTorque(yawSpeed * amount * transform.up, Acceleration);
+    }
+
+    public void MouseX(float amount)
+    {
+        _rb.AddTorque(rollSpeed * amount * transform.forward, Acceleration);
+    }
+
+    public void MouseY(float amount)
+    {
+        _rb.AddTorque(pitchSpeed * amount * transform.right, Acceleration);
+    }
+
+    public void Jump()
+    {
+        _rb.AddForce(jumpSpeed * transform.up, Acceleration);
+    }
+
+    public void Crouch()
+    {
+        _isCrouching = true;
+    }
+
+    public void SetCamera(Camera followCamera)
+    {
+        var cameraTransform = followCamera.transform;
+        cameraTransform.SetParent(transform, false);
+        cameraTransform.localPosition = cameraOffset;
+        cameraTransform.LookAt(transform);
     }
 }

@@ -1,4 +1,6 @@
-﻿public interface IControllable
+﻿using UnityEngine;
+
+public interface IControllable
 {
     void Forward(float amount);
     void Side(float amount);
@@ -6,4 +8,6 @@
     void MouseY(float amount);
     void Jump();
     void Crouch();
+
+    void SetCamera(Camera followCamera);
 }
