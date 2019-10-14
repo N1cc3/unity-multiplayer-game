@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Networking;
-using static UnityEngine.ForceMode;
 
 public class PlayerControl : NetworkBehaviour
 {
@@ -12,6 +8,7 @@ public class PlayerControl : NetworkBehaviour
 
     private GameObject _spectatorPrefab;
     private GameObject _mediumTransportPrefab;
+    private GameObject _spectator;
 
     private void Awake()
     {
@@ -21,12 +18,12 @@ public class PlayerControl : NetworkBehaviour
 
     public override void OnStartLocalPlayer()
     {
-        var spectator = Instantiate(_spectatorPrefab);
-        SetControlledObject(spectator);
+        _spectator = Instantiate(_spectatorPrefab);
+        SetControlledObject(_spectator);
         _spawnPoint = GameObject.FindWithTag("Respawn").transform;
     }
 
-    public void SetControlledObject(GameObject obj)
+    private void SetControlledObject(GameObject obj)
     {
         _controllable = obj.GetComponent<IControllable>();
         _controllable.SetCamera(Camera.main);
@@ -34,14 +31,26 @@ public class PlayerControl : NetworkBehaviour
 
     private void Update()
     {
+        if (!isLocalPlayer) return;
+        if (Input.GetButtonDown("Cancel")) SpectatorMode();
         if (Input.GetButtonDown("Spawn1")) Spawn1();
-        if (!isLocalPlayer || _controllable == null) return;
+
+        if (_controllable == null) return;
         _controllable.Forward(Input.GetAxis("Vertical"));
         _controllable.Side(Input.GetAxis("Horizontal"));
         _controllable.MouseX(Input.GetAxis("Mouse X"));
         _controllable.MouseY(Input.GetAxis("Mouse Y"));
         if (Input.GetButton("Jump")) _controllable.Jump();
         if (Input.GetButton("Crouch")) _controllable.Crouch();
+    }
+
+    private void SpectatorMode()
+    {
+        var cameraT = Camera.main.transform;
+        var cameraPosition = cameraT.position;
+        _spectator.transform.position = cameraPosition;
+        _spectator.transform.LookAt(cameraT.rotation * -Vector3.forward + cameraPosition);
+        SetControlledObject(_spectator);
     }
 
     private void Spawn1()
