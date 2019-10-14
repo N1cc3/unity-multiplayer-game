@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using static System.Single;
 using static UnityEngine.Space;
 using static UnityEngine.Vector3;
@@ -15,7 +14,7 @@ public class SpectatorControl : MonoBehaviour, IControllable
     private GameObject _headquartersPrefab;
 
     private GameObject _hqHolo;
-    private GameObject _hq;
+    private Game _game;
 
     private void Awake()
     {
@@ -25,6 +24,7 @@ public class SpectatorControl : MonoBehaviour, IControllable
 
     private void Start()
     {
+        _game = FindObjectOfType<Game>();
         _terrainCollider = Terrain.activeTerrain.GetComponent<TerrainCollider>();
         _hqHolo = Instantiate(_headquartersHoloPrefab);
     }
@@ -37,7 +37,9 @@ public class SpectatorControl : MonoBehaviour, IControllable
         _hqHolo.transform.position = hit.point;
 
         if (!Input.GetButtonDown("Fire1")) return;
-        _hq = Instantiate(_headquartersPrefab, _hqHolo.transform.position, _hqHolo.transform.rotation);
+        if (!_hqHolo.GetComponent<BuildingHolo>().CanBeBuilt()) return;
+        var hq = Instantiate(_headquartersPrefab, _hqHolo.transform.position, _hqHolo.transform.rotation);
+        _game.Unbuildables.Add(hq.GetComponentInChildren<Unbuildable>());
         Destroy(_hqHolo);
         _hqHolo = null;
     }
