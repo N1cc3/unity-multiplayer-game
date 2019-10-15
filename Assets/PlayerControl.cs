@@ -3,7 +3,7 @@ using UnityEngine.Networking;
 
 public class PlayerControl : NetworkBehaviour
 {
-    private IControllable _controllable;
+    private Controllable _controllable;
     private Transform _spawnPoint;
 
     private GameObject _spectatorPrefab;
@@ -25,7 +25,7 @@ public class PlayerControl : NetworkBehaviour
 
     private void SetControlledObject(GameObject obj)
     {
-        _controllable = obj.GetComponent<IControllable>();
+        _controllable = obj.GetComponent<Controllable>();
         _controllable.SetCamera(Camera.main);
     }
 
@@ -36,12 +36,12 @@ public class PlayerControl : NetworkBehaviour
         if (Input.GetButtonDown("Spawn1")) Spawn1();
 
         if (_controllable == null) return;
-        _controllable.Forward(Input.GetAxis("Vertical"));
-        _controllable.Side(Input.GetAxis("Horizontal"));
-        _controllable.MouseX(Input.GetAxis("Mouse X"));
-        _controllable.MouseY(Input.GetAxis("Mouse Y"));
-        if (Input.GetButton("Jump")) _controllable.Jump();
-        if (Input.GetButton("Crouch")) _controllable.Crouch();
+        _controllable.SetForward(Input.GetAxis("Vertical"));
+        _controllable.SetSide(Input.GetAxis("Horizontal"));
+        _controllable.SetMouseX(Input.GetAxis("Mouse X"));
+        _controllable.SetMouseY(Input.GetAxis("Mouse Y"));
+        if (Input.GetButton("Jump")) _controllable.SetJump();
+        if (Input.GetButton("Crouch")) _controllable.SetCrouch();
     }
 
     private void SpectatorMode()

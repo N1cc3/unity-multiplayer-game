@@ -3,7 +3,7 @@ using static System.Single;
 using static UnityEngine.Space;
 using static UnityEngine.Vector3;
 
-public class SpectatorControl : MonoBehaviour, IControllable
+public class SpectatorControl : Controllable
 {
     public float moveSpeed = 1.0f;
     public float rotateSpeed = 1.0f;
@@ -44,37 +44,19 @@ public class SpectatorControl : MonoBehaviour, IControllable
         _hqHolo = null;
     }
 
-    public void Forward(float amount)
+    private void FixedUpdate()
     {
-        transform.Translate(-1 * moveSpeed * amount * forward);
+        transform.Translate(-Forward * moveSpeed * forward);
+        transform.Translate(-Side * moveSpeed * right);
+        transform.Rotate(up, MouseX * rotateSpeed, World);
+        transform.Rotate(right, MouseY * rotateSpeed);
+        if (Jump) transform.Translate(moveSpeed * up);
+        if (Crouch) transform.Translate(moveSpeed * down);
+
+        ResetInputs();
     }
 
-    public void Side(float amount)
-    {
-        transform.Translate(-1 * moveSpeed * amount * right);
-    }
-
-    public void MouseX(float amount)
-    {
-        transform.Rotate(up, rotateSpeed * amount, World);
-    }
-
-    public void MouseY(float amount)
-    {
-        transform.Rotate(right, rotateSpeed * amount);
-    }
-
-    public void Jump()
-    {
-        transform.Translate(moveSpeed * up);
-    }
-
-    public void Crouch()
-    {
-        transform.Translate(moveSpeed * down);
-    }
-
-    public void SetCamera(Camera followCamera)
+    public override void SetCamera(Camera followCamera)
     {
         var cameraTransform = followCamera.transform;
         cameraTransform.SetParent(transform, false);

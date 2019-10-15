@@ -1,8 +1,9 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Experimental.PlayerLoop;
 using static UnityEngine.ForceMode;
 
-public class FlyingControl : MonoBehaviour, IControllable
+public class FlyingControl : Controllable
 {
     public float thrustSpeed = 8.0f;
     public float yawSpeed = 1.0f;
@@ -21,43 +22,24 @@ public class FlyingControl : MonoBehaviour, IControllable
         _rb = GetComponent<Rigidbody>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        if (!_isCrouching) _rb.AddForce(defaultJumpThrust * transform.up, Acceleration);
-        _isCrouching = false;
+        var t = transform;
+        var tForward = t.forward;
+        var tUp = t.up;
+
+        _rb.AddForce(-Forward * thrustSpeed * tForward, Acceleration);
+        _rb.AddTorque(Side * yawSpeed * tUp, Acceleration);
+        _rb.AddTorque(MouseX * rollSpeed * tForward, Acceleration);
+        _rb.AddTorque(MouseY * pitchSpeed * t.right, Acceleration);
+        if (Jump) _rb.AddForce(jumpSpeed * tUp, Acceleration);
+        if (!Crouch) _rb.AddForce(defaultJumpThrust * tUp, Acceleration);
+
+        ResetInputs();
     }
 
-    public void Forward(float amount)
-    {
-        _rb.AddForce(-1 * thrustSpeed * amount * transform.forward, Acceleration);
-    }
 
-    public void Side(float amount)
-    {
-        _rb.AddTorque(yawSpeed * amount * transform.up, Acceleration);
-    }
-
-    public void MouseX(float amount)
-    {
-        _rb.AddTorque(rollSpeed * amount * transform.forward, Acceleration);
-    }
-
-    public void MouseY(float amount)
-    {
-        _rb.AddTorque(pitchSpeed * amount * transform.right, Acceleration);
-    }
-
-    public void Jump()
-    {
-        _rb.AddForce(jumpSpeed * transform.up, Acceleration);
-    }
-
-    public void Crouch()
-    {
-        _isCrouching = true;
-    }
-
-    public void SetCamera(Camera followCamera)
+    public override void SetCamera(Camera followCamera)
     {
         var cameraTransform = followCamera.transform;
         cameraTransform.SetParent(transform, false);
