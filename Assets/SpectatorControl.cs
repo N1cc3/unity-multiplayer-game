@@ -57,6 +57,7 @@ public class SpectatorControl : Controllable {
 	}
 
 	public void BuildTurret() {
+		if (_currentHolo) return;
 		_currentHolo = Instantiate(_turretHoloPrefab);
 	}
 }
