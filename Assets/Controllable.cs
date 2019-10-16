@@ -1,10 +1,6 @@
 ﻿using System;
 using UnityEngine;
 
-/**
- * Use protected field values as controls.
- * Call ResetInputs after fields have been used.
- */
 public abstract class Controllable : MonoBehaviour
 {
     protected float Forward { get; private set; }
@@ -34,24 +30,14 @@ public abstract class Controllable : MonoBehaviour
         MouseY = amount;
     }
 
-    public void SetJump()
+    public void SetJump(bool jump)
     {
-        Jump = true;
+        Jump = jump;
     }
 
-    public void SetCrouch()
+    public void SetCrouch(bool crouch)
     {
-        Crouch = true;
-    }
-
-    protected void ResetInputs()
-    {
-        Forward = 0.0f;
-        Side = 0.0f;
-        MouseX = 0.0f;
-        MouseY = 0.0f;
-        Jump = false;
-        Crouch = false;
+        Crouch = crouch;
     }
 
     public abstract void SetCamera(Camera followCamera);

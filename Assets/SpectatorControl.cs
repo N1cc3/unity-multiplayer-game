@@ -52,8 +52,6 @@ public class SpectatorControl : Controllable
         transform.Rotate(right, MouseY * rotateSpeed);
         if (Jump) transform.Translate(moveSpeed * up);
         if (Crouch) transform.Translate(moveSpeed * down);
-
-        ResetInputs();
     }
 
     public override void SetCamera(Camera followCamera)

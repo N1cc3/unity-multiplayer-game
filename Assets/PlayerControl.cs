@@ -43,8 +43,8 @@ public class PlayerControl : NetworkBehaviour
         _controllable.SetSide(Input.GetAxis("Horizontal"));
         _controllable.SetMouseX(Input.GetAxis("Mouse X"));
         _controllable.SetMouseY(Input.GetAxis("Mouse Y"));
-        if (Input.GetButton("Jump")) _controllable.SetJump();
-        if (Input.GetButton("Crouch")) _controllable.SetCrouch();
+        _controllable.SetJump(Input.GetButton("Jump"));
+        _controllable.SetCrouch(Input.GetButton("Crouch"));
     }
 
     private void SpectatorMode()

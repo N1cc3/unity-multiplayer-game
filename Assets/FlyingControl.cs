@@ -34,8 +34,6 @@ public class FlyingControl : Controllable
         _rb.AddTorque(MouseY * pitchSpeed * t.right, Acceleration);
         if (Jump) _rb.AddForce(jumpSpeed * tUp, Acceleration);
         if (!Crouch) _rb.AddForce(defaultJumpThrust * tUp, Acceleration);
-
-        ResetInputs();
     }
 
 
