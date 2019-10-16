@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-public class Unbuildable : MonoBehaviour
-{
-    public Collider area;
+public class Unbuildable : MonoBehaviour {
+	public Collider area;
 }
