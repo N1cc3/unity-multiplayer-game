@@ -18,11 +18,12 @@ public class PlayerControl : NetworkBehaviour {
 
 	public override void OnStartLocalPlayer() {
 		_spectator = Instantiate(_spectatorPrefab);
+		_spectator.GetComponent<SpectatorControl>().playerControl = this;
 		SetControlledObject(_spectator);
 		_spawnPoint = GameObject.FindWithTag("Respawn").transform;
 	}
 
-	private void SetControlledObject(GameObject obj) {
+	public void SetControlledObject(GameObject obj) {
 		_controllable = obj.GetComponent<Controllable>();
 		_inSpectatorMode = obj == _spectator;
 		_controllable.SetCamera(Camera.main);
