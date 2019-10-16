@@ -9,6 +9,7 @@ public class PlayerControl : NetworkBehaviour
     private GameObject _spectatorPrefab;
     private GameObject _mediumTransportPrefab;
     private GameObject _spectator;
+    private bool _inSpectatorMode;
 
     private void Awake()
     {
@@ -26,6 +27,7 @@ public class PlayerControl : NetworkBehaviour
     private void SetControlledObject(GameObject obj)
     {
         _controllable = obj.GetComponent<Controllable>();
+        _inSpectatorMode = obj == _spectator;
         _controllable.SetCamera(Camera.main);
     }
 
@@ -34,6 +36,7 @@ public class PlayerControl : NetworkBehaviour
         if (!isLocalPlayer) return;
         if (Input.GetButtonDown("Cancel")) SpectatorMode();
         if (Input.GetButtonDown("Spawn1")) Spawn1();
+        if (Input.GetButtonDown("Spawn2")) Spawn2();
 
         if (_controllable == null) return;
         _controllable.SetForward(Input.GetAxis("Vertical"));
@@ -57,5 +60,11 @@ public class PlayerControl : NetworkBehaviour
     {
         var mediumTransport = Instantiate(_mediumTransportPrefab, _spawnPoint.position, _spawnPoint.rotation);
         SetControlledObject(mediumTransport);
+    }
+
+    private void Spawn2()
+    {
+        if (!_inSpectatorMode) return;
+        _spectator.GetComponent<SpectatorControl>().BuildTurret();
     }
 }

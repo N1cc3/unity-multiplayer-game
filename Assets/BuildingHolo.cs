@@ -8,24 +8,30 @@ public class BuildingHolo : MonoBehaviour
     private static readonly Color Red = new Color(0.2f, 0, 0);
     private static readonly int EmissionColor = Shader.PropertyToID("_EmissionColor");
 
-    public MeshRenderer holo;
     public BoxCollider area;
+    public GameObject building;
 
     private Game _game;
 
     private IEnumerable<Unbuildable> _blockers;
+    private MeshRenderer[] _holos;
 
     private void Start()
     {
         _game = FindObjectOfType<Game>();
+        _holos = GetComponentsInChildren<MeshRenderer>();
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         _blockers = _game.Unbuildables.Where(unbuildable =>
             unbuildable.area.bounds.Intersects(area.bounds)
         );
-        holo.material.SetColor(EmissionColor, _blockers.Any() ? Red : Green);
+        var color = _blockers.Any() ? Red : Green;
+        foreach (var holo in _holos)
+        {
+            holo.material.SetColor(EmissionColor, color);
+        }
     }
 
     public bool CanBeBuilt()

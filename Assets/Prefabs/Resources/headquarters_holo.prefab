@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   holo: {fileID: 3193870760839636665}
   area: {fileID: 7527804898191142866}
+  building: {fileID: 5802379727471328283, guid: c545f56e32dc6324bbf568efdedf5133,
+    type: 3}
 --- !u!1001 &423252677762623563
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -86,16 +88,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2994148943033290482, guid: c545f56e32dc6324bbf568efdedf5133,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 900cb5408d8dca545945801898855cfd, type: 2}
-    - target: {fileID: 7215213064651213915, guid: c545f56e32dc6324bbf568efdedf5133,
-        type: 3}
-      propertyPath: isBuilt
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2570640473017365935, guid: c545f56e32dc6324bbf568efdedf5133,
         type: 3}
       propertyPath: m_IsActive
@@ -105,6 +97,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2994148943033290482, guid: c545f56e32dc6324bbf568efdedf5133,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 900cb5408d8dca545945801898855cfd, type: 2}
+    - target: {fileID: 7215213064651213915, guid: c545f56e32dc6324bbf568efdedf5133,
+        type: 3}
+      propertyPath: isBuilt
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 3938477170527771466, guid: c545f56e32dc6324bbf568efdedf5133, type: 3}
