@@ -42,7 +42,7 @@ public class SpectatorControl : Controllable {
 		foreach (var pair in _originalColors) pair.Key.material.color = pair.Value;
 		_originalColors.Clear();
 
-		if (_currentHolo) return;
+		if (_currentHolo || !playerControl.inSpectatorMode) return;
 		var t = transform;
 		Clear(_hits, 0, _hits.Length);
 		RaycastNonAlloc(new Ray(t.position, -t.forward), _hits, PositiveInfinity);

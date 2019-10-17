@@ -3,13 +3,14 @@ using UnityEngine.Networking;
 using static UnityEngine.Input;
 
 public class PlayerControl : NetworkBehaviour {
+	public bool inSpectatorMode;
+
 	private Controllable _controllable;
 	private Transform _spawnPoint;
 
 	private GameObject _spectatorPrefab;
 	private GameObject _mediumTransportPrefab;
 	private GameObject _spectator;
-	private bool _inSpectatorMode;
 
 	private void Awake() {
 		_spectatorPrefab = Resources.Load("spectator") as GameObject;
@@ -19,14 +20,14 @@ public class PlayerControl : NetworkBehaviour {
 	public override void OnStartLocalPlayer() {
 		_spectator = Instantiate(_spectatorPrefab);
 		_spectator.GetComponent<SpectatorControl>().playerControl = this;
-		SetControlledObject(_spectator);
+		SpectatorMode();
 		_spawnPoint = GameObject.FindWithTag("Respawn").transform;
 	}
 
 	public void SetControlledObject(GameObject obj) {
 		if (_controllable) _controllable.ResetControls();
 		_controllable = obj.GetComponent<Controllable>();
-		_inSpectatorMode = obj == _spectator;
+		inSpectatorMode = obj == _spectator;
 		_controllable.SetCamera(Camera.main);
 	}
 
@@ -55,12 +56,13 @@ public class PlayerControl : NetworkBehaviour {
 	}
 
 	private void Spawn1() {
+		if (!inSpectatorMode) return;
 		var mediumTransport = Instantiate(_mediumTransportPrefab, _spawnPoint.position, _spawnPoint.rotation);
 		SetControlledObject(mediumTransport);
 	}
 
 	private void Spawn2() {
-		if (!_inSpectatorMode) return;
+		if (!inSpectatorMode) return;
 		_spectator.GetComponent<SpectatorControl>().BuildTurret();
 	}
 }
