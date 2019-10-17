@@ -50,7 +50,7 @@ public class SpectatorControl : Controllable {
 		foreach (var hit in _hits) {
 			if (!hit.transform) continue;
 			var controllable = hit.transform.GetComponent<Controllable>();
-
+			if (!controllable) controllable = hit.transform.GetComponentInParent<Controllable>();
 			if (!controllable) continue;
 			var renderers = controllable.GetComponentsInChildren<Renderer>();
 			foreach (var r in renderers) {
@@ -58,7 +58,7 @@ public class SpectatorControl : Controllable {
 				r.material.color = Color.cyan;
 			}
 
-			if (Input.GetButtonDown("Fire1")) playerControl.SetControlledObject(hit.transform.gameObject);
+			if (fire1) playerControl.SetControlledObject(controllable.gameObject);
 
 			break; // What if it wasn't the closest controllable?
 		}
@@ -71,7 +71,7 @@ public class SpectatorControl : Controllable {
 		_terrainCollider.Raycast(new Ray(t.position, -t.forward), out var hit, PositiveInfinity);
 		_currentHolo.transform.position = hit.point;
 
-		if (!Input.GetButtonDown("Fire1")) return;
+		if (!fire1) return;
 
 		var buildingHolo = _currentHolo.GetComponent<BuildingHolo>();
 		if (!buildingHolo.CanBeBuilt()) return;
@@ -83,18 +83,18 @@ public class SpectatorControl : Controllable {
 	}
 
 	private void FixedUpdate() {
-		transform.Translate(-Forward * moveSpeed * forward);
-		transform.Translate(-Side * moveSpeed * right);
-		transform.Rotate(up, MouseX * rotateSpeed, World);
-		transform.Rotate(right, MouseY * rotateSpeed);
-		if (Jump) transform.Translate(moveSpeed * up);
-		if (Crouch) transform.Translate(moveSpeed * down);
+		transform.Translate(-forward * moveSpeed * Vector3.forward);
+		transform.Translate(-side * moveSpeed * right);
+		transform.Rotate(up, mouseX * rotateSpeed, World);
+		transform.Rotate(right, mouseY * rotateSpeed);
+		if (jump) transform.Translate(moveSpeed * up);
+		if (crouch) transform.Translate(moveSpeed * down);
 	}
 
 	public override void SetCamera(Camera followCamera) {
 		var cameraTransform = followCamera.transform;
 		cameraTransform.SetParent(transform, false);
-		cameraTransform.localPosition = forward;
+		cameraTransform.localPosition = 0.01f * Vector3.forward;
 		cameraTransform.LookAt(transform);
 	}
 

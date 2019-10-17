@@ -1,40 +1,43 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 using static UnityEngine.ForceMode;
 
-public class PlayerController : MonoBehaviour {
+public class TurretControl : Controllable {
 	public float horizontalSpeed = 1.0f;
 	public float verticalSpeed = 1.0f;
 
-	public GameObject horizontalTransform;
-	public GameObject verticalTransform;
+	public Transform head;
+	public Transform gun;
 
 	public GameObject shotType;
 	public GameObject muzzle;
-	public float fireRate = 0.1f;
-	public float muzzleImpulse = 0.5f;
+	public float cooldown = 0.1f;
+	public float muzzleVelocity = 50.0f;
+
+	public Vector3 cameraOffset = Vector3.forward;
 
 	private float _shotDelta;
 
 	private void Update() {
-		var h = horizontalSpeed * Input.GetAxis("Mouse X");
-		var v = verticalSpeed * Input.GetAxis("Mouse Y");
-		horizontalTransform.transform.Rotate(Vector3.up, h);
-		verticalTransform.transform.Rotate(Vector3.right, v);
+		head.Rotate(Vector3.up, horizontalSpeed * mouseX);
+		gun.Rotate(Vector3.right, verticalSpeed * mouseY);
 
-		_shotDelta = Math.Min(fireRate, _shotDelta + Time.deltaTime);
-		var isShooting = Input.GetButton("Fire1");
-		if (isShooting && _shotDelta >= fireRate) Shoot();
+		_shotDelta = Math.Min(cooldown, _shotDelta + Time.deltaTime);
+		if (fire1 && _shotDelta >= cooldown) Shoot();
 	}
 
 	private void Shoot() {
 		var rotation = muzzle.transform.rotation;
 		var shot = Instantiate(shotType, muzzle.transform.position, rotation);
 		var shotDirection = rotation * Vector3.back;
-		shot.GetComponent<Rigidbody>().AddForce(muzzleImpulse * shotDirection, Impulse);
+		shot.GetComponent<Rigidbody>().AddForce(muzzleVelocity * shotDirection, VelocityChange);
 		_shotDelta = 0.0f;
+	}
+
+	public override void SetCamera(Camera followCamera) {
+		var cameraTransform = followCamera.transform;
+		cameraTransform.SetParent(gun, false);
+		cameraTransform.localPosition = cameraOffset;
+		cameraTransform.LookAt(gun);
 	}
 }

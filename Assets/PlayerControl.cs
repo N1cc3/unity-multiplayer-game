@@ -24,6 +24,7 @@ public class PlayerControl : NetworkBehaviour {
 	}
 
 	public void SetControlledObject(GameObject obj) {
+		if (_controllable) _controllable.ResetControls();
 		_controllable = obj.GetComponent<Controllable>();
 		_inSpectatorMode = obj == _spectator;
 		_controllable.SetCamera(Camera.main);
@@ -36,12 +37,13 @@ public class PlayerControl : NetworkBehaviour {
 		if (GetButtonDown("Spawn2")) Spawn2();
 
 		if (_controllable == null) return;
-		_controllable.SetForward(GetAxis("Vertical"));
-		_controllable.SetSide(GetAxis("Horizontal"));
-		_controllable.SetMouseX(GetAxis("Mouse X"));
-		_controllable.SetMouseY(GetAxis("Mouse Y"));
-		_controllable.SetJump(GetButton("Jump"));
-		_controllable.SetCrouch(GetButton("Crouch"));
+		_controllable.forward = GetAxis("Vertical");
+		_controllable.side = GetAxis("Horizontal");
+		_controllable.mouseX = GetAxis("Mouse X");
+		_controllable.mouseY = GetAxis("Mouse Y");
+		_controllable.jump = GetButton("Jump");
+		_controllable.crouch = GetButton("Crouch");
+		_controllable.fire1 = GetButton("Fire1");
 	}
 
 	private void SpectatorMode() {

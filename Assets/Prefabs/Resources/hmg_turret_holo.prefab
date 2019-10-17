@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bc5b4739a55b8c42ba6d49cc166883d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  holo: {fileID: 0}
   area: {fileID: 1490841196039414033}
   building: {fileID: 471393944016038192, guid: 8d0cfc67d670f074e9e40a7b475a4ce9, type: 3}
 --- !u!1001 &7773294236104251197
@@ -97,7 +96,8 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 900cb5408d8dca545945801898855cfd, type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 811025865569996302, guid: 8d0cfc67d670f074e9e40a7b475a4ce9, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 8d0cfc67d670f074e9e40a7b475a4ce9, type: 3}
 --- !u!1 &7884381996985449997 stripped
 GameObject:

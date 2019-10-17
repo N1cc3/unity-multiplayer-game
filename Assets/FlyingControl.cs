@@ -25,12 +25,12 @@ public class FlyingControl : Controllable {
 		var tForward = t.forward;
 		var tUp = t.up;
 
-		_rb.AddForce(-Forward * thrustSpeed * tForward, Acceleration);
-		_rb.AddTorque(Side * yawSpeed * tUp, Acceleration);
-		_rb.AddTorque(MouseX * rollSpeed * tForward, Acceleration);
-		_rb.AddTorque(MouseY * pitchSpeed * t.right, Acceleration);
-		if (Jump) _rb.AddForce(jumpSpeed * tUp, Acceleration);
-		if (!Crouch) _rb.AddForce(defaultJumpThrust * tUp, Acceleration);
+		_rb.AddForce(-forward * thrustSpeed * tForward, Acceleration);
+		_rb.AddTorque(side * yawSpeed * tUp, Acceleration);
+		_rb.AddTorque(mouseX * rollSpeed * tForward, Acceleration);
+		_rb.AddTorque(mouseY * pitchSpeed * t.right, Acceleration);
+		if (jump) _rb.AddForce(jumpSpeed * tUp, Acceleration);
+		if (!crouch) _rb.AddForce(defaultJumpThrust * tUp, Acceleration);
 	}
 
 

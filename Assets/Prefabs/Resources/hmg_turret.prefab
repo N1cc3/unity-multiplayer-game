@@ -39,6 +39,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1753004937575082166}
+  - component: {fileID: 811025865569996302}
   m_Layer: 0
   m_Name: hmg_turret
   m_TagString: Untagged
@@ -63,6 +64,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &811025865569996302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 471393944016038192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4079bfc9c24891409a90e4ca784760b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  horizontalSpeed: 1
+  verticalSpeed: 1
+  head: {fileID: 7219330229674777918}
+  gun: {fileID: 6446540134453234064}
+  shotType: {fileID: 2754795310579001031, guid: 0672b6028172e474ab943b827b50035a,
+    type: 3}
+  muzzle: {fileID: 236072260203341358}
+  cooldown: 0.1
+  muzzleVelocity: 50
+  cameraOffset: {x: 0, y: 0.2, z: 1}
 --- !u!1001 &964017554944886898
 PrefabInstance:
   m_ObjectHideFlags: 0
