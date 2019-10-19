@@ -1,14 +1,18 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using static System.Array;
+using static System.Math;
 using static System.Single;
 using static UnityEngine.Physics;
-using static UnityEngine.Space;
+using static UnityEngine.Quaternion;
 using static UnityEngine.Vector3;
 
 public class SpectatorControl : Controllable {
 	public float moveSpeed = 1.0f;
 	public float rotateSpeed = 1.0f;
+
+	private float _yaw;
+	private float _pitch;
 
 	public PlayerControl playerControl;
 
@@ -85,8 +89,9 @@ public class SpectatorControl : Controllable {
 	private void FixedUpdate() {
 		transform.Translate(-forward * moveSpeed * Vector3.forward);
 		transform.Translate(-side * moveSpeed * right);
-		transform.Rotate(up, mouseX * rotateSpeed, World);
-		transform.Rotate(right, mouseY * rotateSpeed);
+		_yaw += mouseX * rotateSpeed;
+		_pitch = Max(-90, Min(90, _pitch + mouseY * rotateSpeed));
+		transform.rotation = AngleAxis(_yaw, up) * AngleAxis(_pitch, right);
 		if (jump) transform.Translate(moveSpeed * up);
 		if (crouch) transform.Translate(moveSpeed * down);
 	}
