@@ -9,19 +9,21 @@ public class PlayerControl : NetworkBehaviour {
 	private Transform _spawnPoint;
 
 	private GameObject _spectatorPrefab;
-	private GameObject _mediumTransportPrefab;
 	private GameObject _spectator;
+
+	private GameObject _mediumTransportPrefab;
+	private GameObject _tankPrefab;
 
 	private void Awake() {
 		_spectatorPrefab = Resources.Load("spectator") as GameObject;
 		_mediumTransportPrefab = Resources.Load("medium_transport") as GameObject;
+		_tankPrefab = Resources.Load("tank") as GameObject;
 	}
 
 	public override void OnStartLocalPlayer() {
 		_spectator = Instantiate(_spectatorPrefab);
 		_spectator.GetComponent<SpectatorControl>().playerControl = this;
 		SpectatorMode();
-		_spawnPoint = GameObject.FindWithTag("Respawn").transform;
 	}
 
 	public void SetControlledObject(GameObject obj) {
@@ -36,6 +38,7 @@ public class PlayerControl : NetworkBehaviour {
 		if (GetButtonDown("Cancel")) SpectatorMode();
 		if (GetButtonDown("Spawn1")) Spawn1();
 		if (GetButtonDown("Spawn2")) Spawn2();
+		if (GetButtonDown("Spawn3")) Spawn3();
 
 		if (_controllable == null) return;
 		_controllable.forward = GetAxis("Vertical");
@@ -57,6 +60,7 @@ public class PlayerControl : NetworkBehaviour {
 
 	private void Spawn1() {
 		if (!inSpectatorMode) return;
+		_spawnPoint = GameObject.FindWithTag("Respawn").transform;
 		var mediumTransport = Instantiate(_mediumTransportPrefab, _spawnPoint.position, _spawnPoint.rotation);
 		SetControlledObject(mediumTransport);
 	}
@@ -64,5 +68,12 @@ public class PlayerControl : NetworkBehaviour {
 	private void Spawn2() {
 		if (!inSpectatorMode) return;
 		_spectator.GetComponent<SpectatorControl>().BuildTurret();
+	}
+
+	private void Spawn3() {
+		if (!inSpectatorMode) return;
+		_spawnPoint = GameObject.FindWithTag("Respawn").transform;
+		var tank = Instantiate(_tankPrefab, _spawnPoint.position, _spawnPoint.rotation);
+		SetControlledObject(tank);
 	}
 }

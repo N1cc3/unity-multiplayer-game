@@ -22,7 +22,7 @@ public class TurretControl : Controllable {
 	public float cooldown = 0.1f;
 	public float muzzleVelocity = 50.0f;
 
-	public Vector3 cameraOffset = Vector3.forward;
+	public Vector3 cameraOffset = -Vector3.forward;
 
 	private float _shotDelta;
 
