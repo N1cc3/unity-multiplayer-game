@@ -1,10 +1,23 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Game : MonoBehaviour {
-	public readonly List<Unbuildable> Unbuildables = new List<Unbuildable>();
+	private readonly HashSet<Unbuildable> _unbuildables = new HashSet<Unbuildable>();
 
 	private void Start() {
-		Unbuildables.AddRange(FindObjectsOfType<Unbuildable>());
+		foreach (var unbuildable in FindObjectsOfType<Unbuildable>()) _unbuildables.Add(unbuildable);
+	}
+
+	public void AddUnbuildable(Unbuildable unbuildable) {
+		_unbuildables.Add(unbuildable);
+	}
+
+	public void RemoveUnbuildable(Unbuildable unbuildable) {
+		_unbuildables.Remove(unbuildable);
+	}
+
+	public HashSet<Unbuildable> Unbuildables() {
+		return _unbuildables;
 	}
 }

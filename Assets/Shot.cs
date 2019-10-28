@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using Random = UnityEngine.Random;
 
-public class Shot : MonoBehaviour {
+public class Shot : NetworkBehaviour {
 	public float lifetime;
 
 	private float _timeSpawned;
@@ -13,10 +14,15 @@ public class Shot : MonoBehaviour {
 	}
 
 	private void Update() {
-		if (Time.time - _timeSpawned > lifetime) Destroy(gameObject);
+		if (Time.time - _timeSpawned > lifetime) Remove();
 	}
 
 	private void OnCollisionEnter(Collision other) {
-		if (_ricochets-- <= 0) Destroy(gameObject);
+		if (_ricochets-- <= 0) Remove();
+	}
+
+	private void Remove() {
+		Destroy(gameObject);
+		NetworkServer.Destroy(gameObject);
 	}
 }

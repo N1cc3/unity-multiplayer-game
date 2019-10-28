@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -12,23 +13,19 @@ public class BuildingHolo : MonoBehaviour {
 
 	private Game _game;
 
-	private IEnumerable<Unbuildable> _blockers;
 	private MeshRenderer[] _holos;
 
-	private void Start() {
+	private void Awake() {
 		_game = FindObjectOfType<Game>();
 		_holos = GetComponentsInChildren<MeshRenderer>();
 	}
 
 	private void LateUpdate() {
-		_blockers = _game.Unbuildables.Where(unbuildable =>
-			unbuildable.area.bounds.Intersects(area.bounds)
-		);
-		var color = _blockers.Any() ? Red : Green;
+		var color = CanBeBuilt() ? Green : Red;
 		foreach (var holo in _holos) holo.material.SetColor(EmissionColor, color);
 	}
 
 	public bool CanBeBuilt() {
-		return !_blockers.Any();
+		return !_game.Unbuildables().Any(unbuildable => unbuildable.area.bounds.Intersects(area.bounds));
 	}
 }

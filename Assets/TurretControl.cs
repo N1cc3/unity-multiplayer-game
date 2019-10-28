@@ -1,6 +1,8 @@
-﻿using UnityEngine;
+﻿using Mirror;
+using UnityEngine;
 using static UnityEngine.ForceMode;
 using static System.Math;
+using static UnityEngine.Networking.NetworkServer;
 using static UnityEngine.Quaternion;
 using static UnityEngine.Vector3;
 
@@ -22,26 +24,27 @@ public class TurretControl : Controllable {
 	public float cooldown = 0.1f;
 	public float muzzleVelocity = 50.0f;
 
-	public Vector3 cameraOffset = -Vector3.forward;
+	public Vector3 cameraOffset = -forward;
 
 	private float _shotDelta;
 
 	private void Update() {
-		_yaw += mouseX * horizontalSpeed;
-		_pitch = Max(minPitch, Min(maxPitch, _pitch + mouseY * verticalSpeed));
+		_yaw += controls.mouseX * horizontalSpeed;
+		_pitch = Max(minPitch, Min(maxPitch, _pitch + controls.mouseY * verticalSpeed));
 		head.localRotation = AngleAxis(_yaw, up);
 		gun.localRotation = AngleAxis(_pitch, left);
 
 		_shotDelta = Min(cooldown, _shotDelta + Time.deltaTime);
-		if (fire1 && _shotDelta >= cooldown) Shoot();
+		if (controls.fire1 && _shotDelta >= cooldown) Shoot();
 	}
 
 	private void Shoot() {
 		var rotation = muzzle.transform.rotation;
 		var shot = Instantiate(shotType, muzzle.transform.position, rotation);
-		var shotDirection = rotation * Vector3.forward;
+		var shotDirection = rotation * forward;
 		shot.GetComponent<Rigidbody>().AddForce(muzzleVelocity * shotDirection, VelocityChange);
 		_shotDelta = 0.0f;
+		Spawn(shot);
 	}
 
 	public override void SetCamera(Camera followCamera) {

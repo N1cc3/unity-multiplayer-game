@@ -12,6 +12,9 @@ GameObject:
   - component: {fileID: 4596597254859661711}
   - component: {fileID: 2721879004498971443}
   - component: {fileID: 4650368893714133731}
+  - component: {fileID: -745282849664050227}
+  - component: {fileID: -8940995964388813051}
+  - component: {fileID: 85784472735352341}
   m_Layer: 0
   m_Name: medium_transport
   m_TagString: Untagged
@@ -76,13 +79,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88be5f079e96d3742b85eb7a61b03dcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  forward: 0
-  side: 0
-  mouseX: 0
-  mouseY: 0
-  jump: 0
-  crouch: 0
-  fire1: 0
+  syncMode: 0
+  syncInterval: 0.1
   thrustSpeed: 8
   yawSpeed: 1
   pitchSpeed: 1
@@ -90,6 +88,50 @@ MonoBehaviour:
   jumpSpeed: 8
   defaultJumpThrust: 6
   cameraOffset: {x: 0, y: 5, z: 10}
+--- !u!114 &-745282849664050227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3308243997499848068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 1
+  m_AssetId: 
+  m_SceneId: 2908074847
+--- !u!114 &-8940995964388813051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3308243997499848068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f74aedd71d9a4f55b3ce499326d45fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  compressRotation: 0
+--- !u!114 &85784472735352341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3308243997499848068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af53ea320dfdb3f419955f95a165a2e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Owner: 0
 --- !u!1001 &7897164302295953062
 PrefabInstance:
   m_ObjectHideFlags: 0

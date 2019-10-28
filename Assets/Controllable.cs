@@ -1,23 +1,44 @@
 ﻿using System;
 using UnityEngine;
+using Mirror;
 
-public abstract class Controllable : MonoBehaviour {
-	public float forward;
-	public float side;
-	public float mouseX;
-	public float mouseY;
-	public bool jump;
-	public bool crouch;
-	public bool fire1;
+public abstract class Controllable : NetworkBehaviour {
+	protected Controls controls;
+
+	public struct Controls {
+		public readonly float forward;
+		public readonly float side;
+		public readonly float mouseX;
+		public readonly float mouseY;
+		public readonly bool jump;
+		public readonly bool crouch;
+		public readonly bool fire1;
+
+		public Controls(float forward, float side, float mouseX, float mouseY, bool jump, bool crouch, bool fire1) {
+			this.forward = forward;
+			this.side = side;
+			this.mouseX = mouseX;
+			this.mouseY = mouseY;
+			this.jump = jump;
+			this.crouch = crouch;
+			this.fire1 = fire1;
+		}
+	}
+
+	public override void OnStartClient() {
+		base.OnStartClient();
+		if (isServer) return;
+		var rb = GetComponent<Rigidbody>();
+		if (!rb) return;
+		rb.isKinematic = true;
+	}
+
+	public void SetControls(Controls newControls) {
+		controls = newControls;
+	}
 
 	public void ResetControls() {
-		forward = 0.0f;
-		side = 0.0f;
-		mouseX = 0.0f;
-		mouseY = 0.0f;
-		jump = false;
-		crouch = false;
-		fire1 = false;
+		controls = new Controls();
 	}
 
 	public abstract void SetCamera(Camera followCamera);

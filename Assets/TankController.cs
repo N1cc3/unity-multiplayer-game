@@ -9,14 +9,14 @@ public class TankController : TurretControl {
 
 	private void FixedUpdate() {
 		var halfTorque = trackPower / 2;
-		var brakeTorque = (1 - Math.Abs(forward)) * (1 - Math.Abs(side)) * halfTorque;
+		var brakeTorque = (1 - Math.Abs(controls.forward)) * (1 - Math.Abs(controls.side)) * halfTorque;
 		foreach (var wheel in leftTrack) {
-			wheel.motorTorque = forward * trackPower + side * halfTorque;
+			wheel.motorTorque = controls.forward * trackPower + controls.side * halfTorque;
 			wheel.brakeTorque = brakeTorque;
 		}
 
 		foreach (var wheel in rightTrack) {
-			wheel.motorTorque = forward * trackPower - side * halfTorque;
+			wheel.motorTorque = controls.forward * trackPower - controls.side * halfTorque;
 			wheel.brakeTorque = brakeTorque;
 		}
 	}

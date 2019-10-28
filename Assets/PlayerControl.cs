@@ -1,5 +1,8 @@
-﻿using UnityEngine;
-using UnityEngine.Networking;
+﻿using System;
+using UnityEngine;
+using Mirror;
+using static Controllable;
+using static Mirror.NetworkServer;
 using static UnityEngine.Input;
 
 public class PlayerControl : NetworkBehaviour {
@@ -20,34 +23,37 @@ public class PlayerControl : NetworkBehaviour {
 		_tankPrefab = Resources.Load("tank") as GameObject;
 	}
 
-	public override void OnStartLocalPlayer() {
+	private void Start() {
+		if (!isServer) return;
 		_spectator = Instantiate(_spectatorPrefab);
-		_spectator.GetComponent<SpectatorControl>().playerControl = this;
+		Spawn(_spectator);
+		var spectatorControl = _spectator.GetComponent<SpectatorControl>();
+		spectatorControl.Init();
 		SpectatorMode();
-	}
-
-	public void SetControlledObject(GameObject obj) {
-		if (_controllable) _controllable.ResetControls();
-		_controllable = obj.GetComponent<Controllable>();
-		inSpectatorMode = obj == _spectator;
-		_controllable.SetCamera(Camera.main);
 	}
 
 	private void Update() {
 		if (!isLocalPlayer) return;
 		if (GetButtonDown("Cancel")) SpectatorMode();
-		if (GetButtonDown("Spawn1")) Spawn1();
-		if (GetButtonDown("Spawn2")) Spawn2();
-		if (GetButtonDown("Spawn3")) Spawn3();
 
-		if (_controllable == null) return;
-		_controllable.forward = GetAxis("Vertical");
-		_controllable.side = GetAxis("Horizontal");
-		_controllable.mouseX = GetAxis("Mouse X");
-		_controllable.mouseY = GetAxis("Mouse Y");
-		_controllable.jump = GetButton("Jump");
-		_controllable.crouch = GetButton("Crouch");
-		_controllable.fire1 = GetButton("Fire1");
+		if (GetButtonDown("Spawn1")) CmdSpawn1();
+		if (GetButtonDown("Spawn2")) Spawn2();
+		if (GetButtonDown("Spawn3")) CmdSpawn3();
+
+		CmdSetControls(new Controls(
+			GetAxis("Vertical"),
+			GetAxis("Horizontal"),
+			GetAxis("Mouse X"),
+			GetAxis("Mouse Y"),
+			GetButton("Jump"),
+			GetButton("Crouch"),
+			GetButton("Fire1")
+		));
+	}
+
+	[Command]
+	private void CmdSetControls(Controls controls) {
+		_controllable.SetControls(controls);
 	}
 
 	private void SpectatorMode() {
@@ -55,13 +61,20 @@ public class PlayerControl : NetworkBehaviour {
 		var cameraPosition = cameraT.position;
 		_spectator.transform.position = cameraPosition;
 		_spectator.transform.LookAt(cameraT.rotation * -Vector3.forward + cameraPosition);
+		CmdSpectatorMode();
+	}
+
+	[Command]
+	private void CmdSpectatorMode() {
 		SetControlledObject(_spectator);
 	}
 
-	private void Spawn1() {
+	[Command]
+	private void CmdSpawn1() {
 		if (!inSpectatorMode) return;
 		_spawnPoint = GameObject.FindWithTag("Respawn").transform;
 		var mediumTransport = Instantiate(_mediumTransportPrefab, _spawnPoint.position, _spawnPoint.rotation);
+		Spawn(mediumTransport);
 		SetControlledObject(mediumTransport);
 	}
 
@@ -70,10 +83,20 @@ public class PlayerControl : NetworkBehaviour {
 		_spectator.GetComponent<SpectatorControl>().BuildTurret();
 	}
 
-	private void Spawn3() {
+	[Command]
+	private void CmdSpawn3() {
 		if (!inSpectatorMode) return;
 		_spawnPoint = GameObject.FindWithTag("Respawn").transform;
 		var tank = Instantiate(_tankPrefab, _spawnPoint.position, _spawnPoint.rotation);
+		Spawn(tank);
 		SetControlledObject(tank);
+	}
+
+	[Server]
+	private void SetControlledObject(GameObject obj) {
+		if (_controllable) _controllable.ResetControls();
+		_controllable = obj.GetComponent<Controllable>();
+		_controllable.SetCamera(Camera.main);
+		inSpectatorMode = obj == _spectator;
 	}
 }
