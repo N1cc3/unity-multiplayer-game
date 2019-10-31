@@ -12,7 +12,7 @@ using static UnityEngine.Physics;
 using static UnityEngine.Quaternion;
 using static UnityEngine.Vector3;
 
-public class Player2 : NetworkBehaviour {
+public class Player : NetworkBehaviour {
 	public float moveSpeed = 1.0f;
 	public float rotateSpeed = 1.0f;
 
