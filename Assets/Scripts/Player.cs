@@ -6,6 +6,8 @@ using static System.Array;
 using static System.Math;
 using static System.Single;
 using static Controllable;
+using static Game;
+using static Game.BuildingType;
 using static UnityEngine.CursorLockMode;
 using static UnityEngine.Input;
 using static UnityEngine.Physics;
@@ -20,19 +22,20 @@ public class Player : NetworkBehaviour {
 	private float _pitch;
 	private Controllable _vehicle;
 
+	private Game _game;
 	private Build _build;
 	private Spawn _spawn;
 	private TerrainCollider _terrainCollider;
 
-	private GameObject _headquartersHoloPrefab;
 	private GameObject _currentHolo;
+	private BuildingType _currentHoloType;
 
 	private readonly RaycastHit[] _hits = new RaycastHit[10];
 	private readonly Dictionary<Renderer, Color> _originalColors = new Dictionary<Renderer, Color>();
 	private Controls _controls;
 
 	private void Awake() {
-		_headquartersHoloPrefab = Resources.Load("headquarters_holo") as GameObject;
+		_game = FindObjectOfType<Game>();
 	}
 
 	private void Start() {
@@ -42,13 +45,18 @@ public class Player : NetworkBehaviour {
 		if (!isLocalPlayer) return;
 
 		_terrainCollider = Terrain.activeTerrain.GetComponent<TerrainCollider>();
-		_currentHolo = Instantiate(_headquartersHoloPrefab);
 
 		Cursor.visible = false;
 		Cursor.lockState = Locked;
 		FindObjectOfType<NetworkManagerHUD>().showGUI = false;
 
 		SetCamera(Camera.main);
+		SetBuildMode(Headquarters);
+	}
+
+	private void SetBuildMode(BuildingType buildingType) {
+		_currentHolo = Instantiate(_game.GetBuildingHolo(buildingType));
+		_currentHoloType = buildingType;
 	}
 
 	private void Update() {
@@ -175,7 +183,7 @@ public class Player : NetworkBehaviour {
 		var buildingHolo = _currentHolo.GetComponent<BuildingHolo>();
 		if (!buildingHolo.CanBeBuilt()) return;
 
-		_build.CmdBuild(_currentHolo.transform.position);
+		_build.CmdBuild(_currentHolo.transform.position, _currentHoloType);
 		Destroy(_currentHolo);
 		_currentHolo = null;
 	}
