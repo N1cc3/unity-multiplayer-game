@@ -7,6 +7,7 @@ using static System.Single;
 using static Controllable;
 using static GameController;
 using static GameController.BuildingType;
+using static GameController.VehicleType;
 using static UnityEngine.CursorLockMode;
 using static UnityEngine.Input;
 using static UnityEngine.Physics;
@@ -80,9 +81,10 @@ public class Player : NetworkBehaviour {
 			if (GetButtonDown("Cancel")) CmdExitVehicle();
 		} else {
 			SetControls(newControls);
-			if (GetButtonDown("Spawn1")) _spawn.CmdSpawn();
+			if (GetButtonDown("Spawn1")) _spawn.CmdSpawn(MediumTransport);
 			if (GetButtonDown("Spawn2")) SetBuildMode(HmgTurret);
 			if (GetButtonDown("Spawn3")) SetBuildMode(Factory1);
+			if (GetButtonDown("Spawn4")) _spawn.CmdSpawn(Tank);
 		}
 	}
 

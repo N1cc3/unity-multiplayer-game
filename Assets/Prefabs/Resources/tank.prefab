@@ -13,6 +13,9 @@ GameObject:
   - component: {fileID: 2315404315739043357}
   - component: {fileID: 705715489808997568}
   - component: {fileID: 4150392465276630993}
+  - component: {fileID: 5322895646343782468}
+  - component: {fileID: 2779035890253269005}
+  - component: {fileID: 693896941418832522}
   m_Layer: 0
   m_Name: tank
   m_TagString: Untagged
@@ -101,9 +104,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serverOnly: 0
-  localPlayerAuthority: 0
+  localPlayerAuthority: 1
   m_AssetId: 
-  m_SceneId: 764688845
+  m_SceneId: 0
 --- !u!114 &4150392465276630993
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -119,6 +122,51 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   compressRotation: 1
+--- !u!114 &5322895646343782468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1484562224029883786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af53ea320dfdb3f419955f95a165a2e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: 0
+--- !u!114 &2779035890253269005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1484562224029883786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 734b48bea0b204338958ee3d885e11f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  compressRotation: 1
+  target: {fileID: 5945851901613454470}
+--- !u!114 &693896941418832522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1484562224029883786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 734b48bea0b204338958ee3d885e11f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  compressRotation: 1
+  target: {fileID: 7387577826621188767}
 --- !u!1 &4942265002208475159
 GameObject:
   m_ObjectHideFlags: 0

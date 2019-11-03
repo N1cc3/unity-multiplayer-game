@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using static GameController.BuildingType;
+using static GameController.VehicleType;
 
 public class GameController : MonoBehaviour {
 	private void Awake() {
 		InitUnbuildables();
 		InitBuildings();
+		InitVehicles();
 	}
 
 	#region Unbuildables
@@ -49,7 +51,7 @@ public class GameController : MonoBehaviour {
 	public enum BuildingType {
 		Headquarters,
 		HmgTurret,
-		Factory1
+		Factory1,
 	}
 
 	public GameObject GetBuilding(BuildingType buildingType) {
@@ -58,6 +60,30 @@ public class GameController : MonoBehaviour {
 
 	public GameObject GetBuildingHolo(BuildingType buildingType) {
 		return _buildingHolos[buildingType];
+	}
+
+	#endregion
+
+	#region Vehicles
+
+	private readonly Dictionary<VehicleType, GameObject> _vehicles = new Dictionary<VehicleType, GameObject>();
+
+	private void InitVehicles() {
+		void AddBuilding(VehicleType type, string vehicleName) {
+			_vehicles.Add(type, Resources.Load(vehicleName) as GameObject);
+		}
+
+		AddBuilding(MediumTransport, "medium_transport");
+		AddBuilding(Tank, "tank");
+	}
+
+	public enum VehicleType {
+		MediumTransport,
+		Tank,
+	}
+
+	public GameObject GetVehicle(VehicleType vehicleType) {
+		return _vehicles[vehicleType];
 	}
 
 	#endregion
