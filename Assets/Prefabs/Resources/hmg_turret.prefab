@@ -10,8 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1753004937575082166}
   - component: {fileID: 811025865569996302}
+  - component: {fileID: 1847091885074998441}
   - component: {fileID: -8572073985972695993}
-  - component: {fileID: -890247933925446702}
+  - component: {fileID: 2347804792177870146}
+  - component: {fileID: 2970974587557817499}
   m_Layer: 0
   m_Name: hmg_turret
   m_TagString: Untagged
@@ -52,8 +54,8 @@ MonoBehaviour:
   syncInterval: 0.1
   horizontalSpeed: 1
   verticalSpeed: 1
-  minPitch: -90
-  maxPitch: 90
+  minPitch: -5
+  maxPitch: 45
   head: {fileID: 7219330229674777918}
   gun: {fileID: 6446540134453234064}
   shotType: {fileID: 2754795310579001031, guid: 0672b6028172e474ab943b827b50035a,
@@ -62,6 +64,19 @@ MonoBehaviour:
   cooldown: 0.1
   muzzleVelocity: 50
   cameraOffset: {x: 0, y: 0.4, z: -1}
+--- !u!114 &1847091885074998441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 471393944016038192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af53ea320dfdb3f419955f95a165a2e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: 0
 --- !u!114 &-8572073985972695993
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75,10 +90,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serverOnly: 0
-  localPlayerAuthority: 0
+  localPlayerAuthority: 1
   m_AssetId: 
-  m_SceneId: 539475167
---- !u!114 &-890247933925446702
+  m_SceneId: 0
+--- !u!114 &2347804792177870146
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -87,12 +102,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 471393944016038192}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f74aedd71d9a4f55b3ce499326d45fb, type: 3}
+  m_Script: {fileID: 11500000, guid: 734b48bea0b204338958ee3d885e11f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
   compressRotation: 1
+  target: {fileID: 7219330229674777918}
+--- !u!114 &2970974587557817499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 471393944016038192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 734b48bea0b204338958ee3d885e11f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  compressRotation: 1
+  target: {fileID: 6446540134453234064}
 --- !u!1001 &5060324938324126730
 PrefabInstance:
   m_ObjectHideFlags: 0

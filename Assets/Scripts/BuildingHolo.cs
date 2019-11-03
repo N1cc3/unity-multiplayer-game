@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using UnityEngine;
 
 public class BuildingHolo : MonoBehaviour {
@@ -9,14 +7,13 @@ public class BuildingHolo : MonoBehaviour {
 	private static readonly int EmissionColor = Shader.PropertyToID("_EmissionColor");
 
 	public BoxCollider area;
-	public GameObject building;
 
-	private Game _game;
+	private GameController _game;
 
 	private MeshRenderer[] _holos;
 
 	private void Awake() {
-		_game = FindObjectOfType<Game>();
+		_game = FindObjectOfType<GameController>();
 		_holos = GetComponentsInChildren<MeshRenderer>();
 	}
 

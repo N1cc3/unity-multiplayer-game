@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Owned : MonoBehaviour {
-	public int Owner;
+	public int owner;
 }

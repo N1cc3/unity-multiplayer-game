@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 using Random = UnityEngine.Random;
 
 public class Shot : NetworkBehaviour {
@@ -9,18 +9,27 @@ public class Shot : NetworkBehaviour {
 	private int _ricochets;
 
 	private void Start() {
-		_timeSpawned = Time.time;
-		_ricochets = Random.value > 0.5 ? 1 : 0;
+		if (isServer) {
+			_timeSpawned = Time.time;
+			_ricochets = Random.value > 0.5 ? 1 : 0;
+		} else {
+			var rb = GetComponent<Rigidbody>();
+			rb.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
+			rb.isKinematic = true;
+		}
 	}
 
 	private void Update() {
+		if (!isServer) return;
 		if (Time.time - _timeSpawned > lifetime) Remove();
 	}
 
 	private void OnCollisionEnter(Collision other) {
+		if (!isServer) return;
 		if (_ricochets-- <= 0) Remove();
 	}
 
+	[Server]
 	private void Remove() {
 		Destroy(gameObject);
 		NetworkServer.Destroy(gameObject);

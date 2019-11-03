@@ -1,25 +1,26 @@
 ﻿using Mirror;
 using UnityEngine;
-using static Game;
+using static GameController;
 using static Mirror.NetworkServer;
 using static UnityEngine.Quaternion;
 
 public class Build : NetworkBehaviour {
-	private Game _game;
+	private GameController _game;
 
 	private void Awake() {
-		_game = FindObjectOfType<Game>();
+		_game = FindObjectOfType<GameController>();
 	}
 
 	[Command]
 	public void CmdBuild(Vector3 position, BuildingType buildingType) {
-		var holo = Instantiate(_game.GetBuildingHolo(buildingType), position, identity);
+		var buildingHolo = _game.GetBuildingHolo(buildingType);
+		var holo = Instantiate(buildingHolo, position, identity);
 		var holoScript = holo.GetComponent<BuildingHolo>();
 		var success = false;
 
 		if (holoScript.CanBeBuilt()) {
 			var building = Instantiate(_game.GetBuilding(buildingType), position, identity);
-			building.GetComponent<Owned>().Owner = connectionToClient.connectionId;
+			building.GetComponent<Owned>().owner = connectionToClient.connectionId;
 			_game.AddUnbuildable(building.GetComponentInChildren<Unbuildable>());
 			Spawn(building);
 			success = true;

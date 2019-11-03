@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 using static System.Array;
 using static System.Math;
 using static System.Single;
 using static Controllable;
-using static Game;
-using static Game.BuildingType;
+using static GameController;
+using static GameController.BuildingType;
 using static UnityEngine.CursorLockMode;
 using static UnityEngine.Input;
 using static UnityEngine.Physics;
@@ -20,9 +19,9 @@ public class Player : NetworkBehaviour {
 
 	private float _yaw;
 	private float _pitch;
-	private Controllable _vehicle;
+	private Controllable _vehicleCtrl;
 
-	private Game _game;
+	private GameController _game;
 	private Build _build;
 	private Spawn _spawn;
 	private TerrainCollider _terrainCollider;
@@ -35,7 +34,7 @@ public class Player : NetworkBehaviour {
 	private Controls _controls;
 
 	private void Awake() {
-		_game = FindObjectOfType<Game>();
+		_game = FindObjectOfType<GameController>();
 	}
 
 	private void Start() {
@@ -55,6 +54,7 @@ public class Player : NetworkBehaviour {
 	}
 
 	private void SetBuildMode(BuildingType buildingType) {
+		if (_currentHolo) return;
 		_currentHolo = Instantiate(_game.GetBuildingHolo(buildingType));
 		_currentHoloType = buildingType;
 	}
@@ -75,12 +75,13 @@ public class Player : NetworkBehaviour {
 		HandleHolo();
 		HandleHighlights();
 
-		if (_vehicle) {
-			_vehicle.SetControls(newControls);
+		if (_vehicleCtrl) {
+			_vehicleCtrl.SetControls(newControls);
 			if (GetButtonDown("Cancel")) CmdExitVehicle();
 		} else {
 			SetControls(newControls);
 			if (GetButtonDown("Spawn1")) _spawn.CmdSpawn();
+			if (GetButtonDown("Spawn2")) SetBuildMode(HmgTurret);
 		}
 	}
 
@@ -114,7 +115,7 @@ public class Player : NetworkBehaviour {
 		foreach (var pair in _originalColors) pair.Key.material.color = pair.Value;
 		_originalColors.Clear();
 
-		if (_currentHolo || _vehicle) return;
+		if (_currentHolo || _vehicleCtrl) return;
 		var t = transform;
 		Clear(_hits, 0, _hits.Length);
 		RaycastNonAlloc(new Ray(t.position, -t.forward), _hits, PositiveInfinity);
@@ -138,10 +139,11 @@ public class Player : NetworkBehaviour {
 
 	[Command]
 	private void CmdExitVehicle() {
-		_vehicle.ResetControls();
-		_vehicle.gameObject.GetComponent<NetworkIdentity>().RemoveClientAuthority();
-		_vehicle.gameObject.GetComponent<Rigidbody>().isKinematic = false;
-		_vehicle = null;
+		var vehicle = _vehicleCtrl.gameObject;
+		vehicle.GetComponent<NetworkIdentity>().RemoveClientAuthority();
+		SetKinematic(vehicle, false);
+		_vehicleCtrl.ResetControls();
+		_vehicleCtrl = null;
 		TargetClearVehicle();
 	}
 
@@ -149,17 +151,17 @@ public class Player : NetworkBehaviour {
 	private void TargetClearVehicle() {
 		SetCamera(Camera.main);
 		if (isServer) return;
-		_vehicle.gameObject.GetComponent<Rigidbody>().isKinematic = true;
-		_vehicle = null;
+		SetKinematic(_vehicleCtrl.gameObject, false);
+		_vehicleCtrl = null;
 	}
 
 	[Command]
 	private void CmdEnterVehicle(uint vehicleNetId) {
 		var vehicle = NetworkIdentity.spawned[vehicleNetId].gameObject;
-		if (vehicle.GetComponent<Owned>().Owner != connectionToClient.connectionId) return;
-		vehicle.gameObject.GetComponent<Rigidbody>().isKinematic = true;
-		vehicle.gameObject.GetComponent<NetworkIdentity>().AssignClientAuthority(connectionToClient);
-		_vehicle = vehicle.GetComponent<Controllable>();
+		if (vehicle.GetComponent<Owned>().owner != connectionToClient.connectionId) return;
+		SetKinematic(vehicle, true);
+		vehicle.GetComponent<NetworkIdentity>().AssignClientAuthority(connectionToClient);
+		_vehicleCtrl = vehicle.GetComponent<Controllable>();
 		TargetSetVehicle(vehicleNetId);
 	}
 
@@ -167,9 +169,9 @@ public class Player : NetworkBehaviour {
 	private void TargetSetVehicle(uint vehicleNetId) {
 		ResetControls();
 		var vehicle = NetworkIdentity.spawned[vehicleNetId].gameObject;
-		_vehicle = vehicle.GetComponent<Controllable>();
-		_vehicle.SetCamera(Camera.main);
-		vehicle.GetComponent<Rigidbody>().isKinematic = false;
+		_vehicleCtrl = vehicle.GetComponent<Controllable>();
+		_vehicleCtrl.SetCamera(Camera.main);
+		SetKinematic(vehicle, false);
 	}
 
 	private void HandleHolo() {
@@ -186,5 +188,10 @@ public class Player : NetworkBehaviour {
 		_build.CmdBuild(_currentHolo.transform.position, _currentHoloType);
 		Destroy(_currentHolo);
 		_currentHolo = null;
+	}
+
+	private static void SetKinematic(GameObject vehicle, bool isOn) {
+		var rb = vehicle.gameObject.GetComponent<Rigidbody>();
+		if (rb) rb.isKinematic = isOn;
 	}
 }

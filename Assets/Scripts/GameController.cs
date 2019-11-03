@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using static Game.BuildingType;
+using static GameController.BuildingType;
 
-public class Game : MonoBehaviour {
-	private void Start() {
+public class GameController : MonoBehaviour {
+	private void Awake() {
 		InitUnbuildables();
 		InitBuildings();
 	}

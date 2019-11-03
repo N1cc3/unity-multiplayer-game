@@ -2,7 +2,7 @@
 using UnityEngine;
 using static UnityEngine.ForceMode;
 using static System.Math;
-using static UnityEngine.Networking.NetworkServer;
+using static Mirror.NetworkServer;
 using static UnityEngine.Quaternion;
 using static UnityEngine.Vector3;
 
@@ -35,16 +35,19 @@ public class TurretControl : Controllable {
 		gun.localRotation = AngleAxis(_pitch, left);
 
 		_shotDelta = Min(cooldown, _shotDelta + Time.deltaTime);
-		if (controls.fire1 && _shotDelta >= cooldown) Shoot();
+
+		if (!controls.fire1 || !(_shotDelta >= cooldown)) return;
+		CmdShoot();
+		_shotDelta = 0.0f;
 	}
 
-	private void Shoot() {
+	[Command]
+	private void CmdShoot() {
 		var rotation = muzzle.transform.rotation;
 		var shot = Instantiate(shotType, muzzle.transform.position, rotation);
+		Spawn(shot);
 		var shotDirection = rotation * forward;
 		shot.GetComponent<Rigidbody>().AddForce(muzzleVelocity * shotDirection, VelocityChange);
-		_shotDelta = 0.0f;
-		Spawn(shot);
 	}
 
 	public override void SetCamera(Camera followCamera) {

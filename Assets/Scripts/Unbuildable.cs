@@ -1,17 +1,16 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Unbuildable : MonoBehaviour {
 	public Collider area;
 
-	private Game _game;
+	private GameController _game;
 
 	private void Start() {
-		_game = FindObjectOfType<Game>();
+		_game = FindObjectOfType<GameController>();
 		_game.AddUnbuildable(this);
 	}
 
 	private void OnDestroy() {
-		_game.RemoveUnbuildable(this);
+		if (_game) _game.RemoveUnbuildable(this);
 	}
 }

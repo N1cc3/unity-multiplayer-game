@@ -14,12 +14,12 @@ public class Spawn : NetworkBehaviour {
 	[Command]
 	public void CmdSpawn() {
 		var respawns = GameObject.FindGameObjectsWithTag("Respawn");
-		var ownedRespawn = respawns.First(r => r.GetComponentInParent<Owned>().Owner == connectionToClient.connectionId);
+		var ownedRespawn = respawns.First(r => r.GetComponentInParent<Owned>().owner == connectionToClient.connectionId);
 		var spawnPosition = ownedRespawn.transform.position;
 		var vehicle = Instantiate(_mediumTransportPrefab, spawnPosition, identity);
 		var success = false;
 
-		vehicle.GetComponent<Owned>().Owner = connectionToClient.connectionId;
+		vehicle.GetComponent<Owned>().owner = connectionToClient.connectionId;
 		Spawn(vehicle);
 		success = true;
 
