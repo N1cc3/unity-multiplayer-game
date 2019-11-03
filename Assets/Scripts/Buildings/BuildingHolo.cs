@@ -1,15 +1,13 @@
 ﻿using System.Linq;
 using UnityEngine;
+using static Buildings.Utils;
 
 public class BuildingHolo : MonoBehaviour {
 	private static readonly Color Green = new Color(0, 0.2f, 0);
 	private static readonly Color Red = new Color(0.2f, 0, 0);
 	private static readonly int EmissionColor = Shader.PropertyToID("_EmissionColor");
 
-	public BoxCollider area;
-
 	private GameController _game;
-
 	private MeshRenderer[] _holos;
 
 	private void Awake() {
@@ -23,6 +21,6 @@ public class BuildingHolo : MonoBehaviour {
 	}
 
 	public bool CanBeBuilt() {
-		return !_game.Unbuildables().Any(unbuildable => unbuildable.area.bounds.Intersects(area.bounds));
+		return !_game.Unbuildables().Any(unbuildable => unbuildable.bounds.Intersects(GetMaxBounds(gameObject)));
 	}
 }

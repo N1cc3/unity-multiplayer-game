@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bc5b4739a55b8c42ba6d49cc166883d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  area: {fileID: 7527804898191142866}
-  building: {fileID: 5802379727471328283, guid: c545f56e32dc6324bbf568efdedf5133,
-    type: 3}
+  bounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
 --- !u!1001 &423252677762623563
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -164,16 +164,11 @@ PrefabInstance:
     - {fileID: 8808737407959652937, guid: c545f56e32dc6324bbf568efdedf5133, type: 3}
     - {fileID: 4346157221898996255, guid: c545f56e32dc6324bbf568efdedf5133, type: 3}
     - {fileID: -5618416728477380549, guid: c545f56e32dc6324bbf568efdedf5133, type: 3}
+    - {fileID: 4324356913720541977, guid: c545f56e32dc6324bbf568efdedf5133, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: c545f56e32dc6324bbf568efdedf5133, type: 3}
 --- !u!1 &6150091419837862992 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5802379727471328283, guid: c545f56e32dc6324bbf568efdedf5133,
-    type: 3}
-  m_PrefabInstance: {fileID: 423252677762623563}
-  m_PrefabAsset: {fileID: 0}
---- !u!65 &7527804898191142866 stripped
-BoxCollider:
-  m_CorrespondingSourceObject: {fileID: 7901443203464087449, guid: c545f56e32dc6324bbf568efdedf5133,
     type: 3}
   m_PrefabInstance: {fileID: 423252677762623563}
   m_PrefabAsset: {fileID: 0}
