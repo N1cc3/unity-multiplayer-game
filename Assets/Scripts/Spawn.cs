@@ -15,8 +15,7 @@ public class Spawn : NetworkBehaviour {
 	public void CmdSpawn() {
 		var respawns = GameObject.FindGameObjectsWithTag("Respawn");
 		var ownedRespawn = respawns.First(r => r.GetComponentInParent<Owned>().owner == connectionToClient.connectionId);
-		var spawnPosition = ownedRespawn.transform.position;
-		var vehicle = Instantiate(_mediumTransportPrefab, spawnPosition, identity);
+		var vehicle = Instantiate(_mediumTransportPrefab, ownedRespawn.transform.position, ownedRespawn.transform.rotation);
 		var success = false;
 
 		vehicle.GetComponent<Owned>().owner = connectionToClient.connectionId;
