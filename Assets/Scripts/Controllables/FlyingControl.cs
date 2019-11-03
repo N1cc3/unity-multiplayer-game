@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using static UnityEngine.ForceMode;
+using static UnityEngine.Vector3;
 
 public class FlyingControl : Controllable {
 	public float thrustSpeed = 8.0f;
@@ -9,10 +10,9 @@ public class FlyingControl : Controllable {
 	public float jumpSpeed = 8.0f;
 	public float defaultJumpThrust = 6f;
 
-	public Vector3 cameraOffset = Vector3.forward;
+	public Vector3 cameraOffset = forward;
 
 	private Rigidbody _rb;
-	private bool _isCrouching;
 
 	private void Start() {
 		_rb = GetComponent<Rigidbody>();
@@ -28,7 +28,7 @@ public class FlyingControl : Controllable {
 		_rb.AddTorque(controls.mouseX * rollSpeed * tForward, Acceleration);
 		_rb.AddTorque(controls.mouseY * pitchSpeed * t.right, Acceleration);
 		if (controls.jump) _rb.AddForce(jumpSpeed * tUp, Acceleration);
-		if (!controls.crouch) _rb.AddForce(defaultJumpThrust * tUp, Acceleration);
+		if (!controls.crouch) _rb.AddForce(defaultJumpThrust * up, Acceleration);
 	}
 
 
