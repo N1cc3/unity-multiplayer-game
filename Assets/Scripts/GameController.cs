@@ -43,11 +43,13 @@ public class GameController : MonoBehaviour {
 
 		AddBuilding(Headquarters, "headquarters");
 		AddBuilding(HmgTurret, "hmg_turret");
+		AddBuilding(Factory1, "factory_1");
 	}
 
 	public enum BuildingType {
 		Headquarters,
-		HmgTurret
+		HmgTurret,
+		Factory1
 	}
 
 	public GameObject GetBuilding(BuildingType buildingType) {

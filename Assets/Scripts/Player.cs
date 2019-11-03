@@ -82,6 +82,7 @@ public class Player : NetworkBehaviour {
 			SetControls(newControls);
 			if (GetButtonDown("Spawn1")) _spawn.CmdSpawn();
 			if (GetButtonDown("Spawn2")) SetBuildMode(HmgTurret);
+			if (GetButtonDown("Spawn3")) SetBuildMode(Factory1);
 		}
 	}
 
