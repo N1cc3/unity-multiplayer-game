@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using UnityEngine;
-using static Buildings.Utils;
 
 public class BuildingHolo : MonoBehaviour {
 	private static readonly Color Green = new Color(0, 0.2f, 0);
@@ -9,10 +8,12 @@ public class BuildingHolo : MonoBehaviour {
 
 	private GameController _game;
 	private MeshRenderer[] _holos;
+	private Unbuildable _unbuildable;
 
 	private void Awake() {
 		_game = FindObjectOfType<GameController>();
 		_holos = GetComponentsInChildren<MeshRenderer>();
+		_unbuildable = GetComponentInChildren<Unbuildable>();
 	}
 
 	private void LateUpdate() {
@@ -21,6 +22,6 @@ public class BuildingHolo : MonoBehaviour {
 	}
 
 	public bool CanBeBuilt() {
-		return !_game.Unbuildables().Any(unbuildable => unbuildable.bounds.Intersects(GetMaxBounds(gameObject)));
+		return !_game.Unbuildables().Any(unbuildable => unbuildable.box.bounds.Intersects(_unbuildable.box.bounds));
 	}
 }

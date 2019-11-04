@@ -21,7 +21,6 @@ public class Build : NetworkBehaviour {
 		if (holoScript.CanBeBuilt()) {
 			var building = Instantiate(_game.GetBuilding(buildingType), position, identity);
 			building.GetComponent<Owned>().owner = connectionToClient.connectionId;
-			_game.AddUnbuildable(building.GetComponentInChildren<Unbuildable>());
 			Spawn(building);
 			success = true;
 		}

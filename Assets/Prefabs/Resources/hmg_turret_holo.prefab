@@ -12,9 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bc5b4739a55b8c42ba6d49cc166883d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bounds:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0, y: 0, z: 0}
 --- !u!1001 &7773294236104251197
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -87,7 +84,7 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 9144810171206524186, guid: 8d0cfc67d670f074e9e40a7b475a4ce9,
+    - target: {fileID: 3629368292260832864, guid: 8d0cfc67d670f074e9e40a7b475a4ce9,
         type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -107,6 +104,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 900cb5408d8dca545945801898855cfd, type: 2}
+    - target: {fileID: 9144810171206524186, guid: 8d0cfc67d670f074e9e40a7b475a4ce9,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2806262866707823349, guid: 8d0cfc67d670f074e9e40a7b475a4ce9,
         type: 3}
       propertyPath: m_AssetId.i0
@@ -185,6 +187,26 @@ PrefabInstance:
     - target: {fileID: 2806262866707823349, guid: 8d0cfc67d670f074e9e40a7b475a4ce9,
         type: 3}
       propertyPath: m_AssetId.i15
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1326962101819195717, guid: 8d0cfc67d670f074e9e40a7b475a4ce9,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1525713121080870269, guid: 8d0cfc67d670f074e9e40a7b475a4ce9,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1737819072491507795, guid: 8d0cfc67d670f074e9e40a7b475a4ce9,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4028349568222080166, guid: 8d0cfc67d670f074e9e40a7b475a4ce9,
+        type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:

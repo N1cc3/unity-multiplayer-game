@@ -1,14 +1,13 @@
 ﻿using UnityEngine;
-using static Buildings.Utils;
 
 public class Unbuildable : MonoBehaviour {
-	public Bounds bounds { get; private set; }
+	public BoxCollider box;
 	private GameController _game;
 
 	private void Start() {
+		if (!isActiveAndEnabled) return;
 		_game = FindObjectOfType<GameController>();
 		_game.AddUnbuildable(this);
-		bounds = GetMaxBounds(gameObject);
 	}
 
 	private void OnDestroy() {
