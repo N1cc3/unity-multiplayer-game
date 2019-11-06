@@ -2,12 +2,27 @@
 using UnityEngine;
 using static GameController.BuildingType;
 using static GameController.VehicleType;
+using Random = UnityEngine.Random;
 
 public class GameController : MonoBehaviour {
+	public Terrain terrain;
+	private int _width;
+	private int _height;
+
 	private void Awake() {
 		InitUnbuildables();
 		InitBuildings();
 		InitVehicles();
+		_width = terrain.terrainData.heightmapWidth;
+		_height = terrain.terrainData.heightmapHeight;
+	}
+
+	private void FixedUpdate() {
+		var x = Random.Range(0, _width);
+		var y = Random.Range(0, _height);
+		var heights = terrain.terrainData.GetHeights(x, y, 1, 1);
+		heights[0, 0] = 500.0f;
+		terrain.terrainData.SetHeights(x, y, heights);
 	}
 
 	#region Unbuildables
