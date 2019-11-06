@@ -3,6 +3,7 @@ using Mirror;
 
 public abstract class Controllable : NetworkBehaviour {
 	protected Controls controls;
+	protected NetworkIdentity player;
 
 	public struct Controls {
 		public readonly float forward;
@@ -38,6 +39,10 @@ public abstract class Controllable : NetworkBehaviour {
 
 	public void ResetControls() {
 		controls = new Controls();
+	}
+
+	public void SetPlayer(GameObject playerObj) {
+		player = playerObj.GetComponent<NetworkIdentity>();
 	}
 
 	public abstract void SetCamera(Camera followCamera);

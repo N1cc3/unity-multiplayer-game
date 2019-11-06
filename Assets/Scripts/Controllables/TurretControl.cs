@@ -22,7 +22,6 @@ public class TurretControl : Controllable {
 	public GameObject shotType;
 	public GameObject muzzle;
 	public float cooldown = 0.1f;
-	public float muzzleVelocity = 50.0f;
 
 	public Vector3 cameraOffset = -forward;
 
@@ -43,11 +42,8 @@ public class TurretControl : Controllable {
 
 	[Command]
 	private void CmdShoot() {
-		var rotation = muzzle.transform.rotation;
-		var shot = Instantiate(shotType, muzzle.transform.position, rotation);
-		Spawn(shot);
-		var shotDirection = rotation * forward;
-		shot.GetComponent<Rigidbody>().AddForce(muzzleVelocity * shotDirection, VelocityChange);
+		var shot = Instantiate(shotType, muzzle.transform.position, muzzle.transform.rotation);
+		SpawnWithClientAuthority(shot, player.connectionToClient);
 	}
 
 	public override void SetCamera(Camera followCamera) {

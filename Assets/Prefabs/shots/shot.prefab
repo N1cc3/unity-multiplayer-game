@@ -33,7 +33,7 @@ Transform:
   m_GameObject: {fileID: 2754795310579001031}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -155,7 +155,7 @@ TrailRenderer:
   m_Time: 0.1
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.02
+    widthMultiplier: 0.1
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -223,7 +223,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  lifetime: 10
+  lifetime: 5
+  muzzleVelocity: 100
 --- !u!114 &-3428568479408917735
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,7 +238,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serverOnly: 0
-  localPlayerAuthority: 0
+  localPlayerAuthority: 1
   m_AssetId: 
   m_SceneId: 0
 --- !u!114 &-8491821365021884012

@@ -165,6 +165,7 @@ public class Player : NetworkBehaviour {
 		SetKinematic(vehicle, true);
 		vehicle.GetComponent<NetworkIdentity>().AssignClientAuthority(connectionToClient);
 		_vehicleCtrl = vehicle.GetComponent<Controllable>();
+		_vehicleCtrl.SetPlayer(gameObject);
 		TargetSetVehicle(vehicleNetId);
 	}
 
