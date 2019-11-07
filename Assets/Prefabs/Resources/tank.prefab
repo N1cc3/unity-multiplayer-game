@@ -82,7 +82,6 @@ MonoBehaviour:
     type: 3}
   muzzle: {fileID: 4374673664026789153}
   cooldown: 0.1
-  muzzleVelocity: 50
   cameraOffset: {x: -0, y: 0.5, z: -1}
   trackPower: 1500
   leftTrack:

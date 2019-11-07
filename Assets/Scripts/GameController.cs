@@ -75,11 +75,13 @@ public class GameController : MonoBehaviour {
 
 		AddBuilding(MediumTransport, "medium_transport");
 		AddBuilding(Tank, "tank");
+		AddBuilding(Buggy, "scavbuggy");
 	}
 
 	public enum VehicleType {
 		MediumTransport,
 		Tank,
+		Buggy,
 	}
 
 	public GameObject GetVehicle(VehicleType vehicleType) {

@@ -85,6 +85,7 @@ public class Player : NetworkBehaviour {
 			if (GetButtonDown("Spawn2")) SetBuildMode(HmgTurret);
 			if (GetButtonDown("Spawn3")) SetBuildMode(Factory1);
 			if (GetButtonDown("Spawn4")) _spawn.CmdSpawn(Tank);
+			if (GetButtonDown("Spawn5")) _spawn.CmdSpawn(Buggy);
 		}
 	}
 
